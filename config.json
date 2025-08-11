@@ -126,12 +126,12 @@
   },
   "logEvents": {
     "disableAll": false,
-    "message": true,
+    "message": false,
     "message_reaction": true,
     "message_unsend": true,
     "message_reply": true,
     "event": true,
-    "read_receipt": false,
+    "read_receipt": true,
     "typ": false,
     "presence": false
   },
