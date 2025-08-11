@@ -1,40 +1,35 @@
-const fs = require("fs");
-const path = require("path");
+const fs = require('fs');
 
 module.exports = {
   config: {
-    name: "filecmd",
-    aliases: ["file"],
+    name: "file",
     version: "1.0",
-    author: "nexo_here",
+    author: "deepam",
     countDown: 5,
-    role: 2,
-    shortDescription: "View code of a command",
-    longDescription: "View the raw source code of any command in the commands folder",
+    role: 0,
+    shortDescription: "Send bot script",
+    longDescription: "Send bot specified file ",
     category: "owner",
-    guide: "{pn} <commandName>"
+    guide: "{pn} file name. Ex: .{pn} filename"
   },
 
-  onStart: async function ({ args, message }) {
-    const cmdName = args[0];
-    if (!cmdName) return message.reply("❌ | Please provide the command name.\nExample: filecmd fluxsnell");
-
-    const cmdPath = path.join(__dirname, `${cmdName}.js`);
-    if (!fs.existsSync(cmdPath)) return message.reply(`❌ | Command "${cmdName}" not found in this folder.`);
-
-    try {
-      const code = fs.readFileSync(cmdPath, "utf8");
-
-      if (code.length > 19000) {
-        return message.reply("⚠️ | This file is too large to display.");
-      }
-
-      return message.reply({
-        body: `📄 | Source code of "${cmdName}.js":\n\n${code}`
-      });
-    } catch (err) {
-      console.error(err);
-      return message.reply("❌ | Error reading the file.");
+  onStart: async function ({ message, args, api, event }) {
+    const permission = ["61574994624853"];
+    if (!permission.includes(event.senderID)) {
+      return api.sendMessage("", event.threadID, event.messageID);
     }
+    
+    const fileName = args[0];
+    if (!fileName) {
+      return api.sendMessage("Please provide a file name.", event.threadID, event.messageID);
+    }
+
+    const filePath = __dirname + `/${fileName}.js`;
+    if (!fs.existsSync(filePath)) {
+      return api.sendMessage(`File not found: ${fileName}.js`, event.threadID, event.messageID);
+    }
+
+    const fileContent = fs.readFileSync(filePath, 'utf8');
+    api.sendMessage({ body: fileContent }, event.threadID);
   }
 };
