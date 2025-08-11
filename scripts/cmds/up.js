@@ -7,7 +7,7 @@ module.exports = {
     name: "uptime",
     aliases: ["up", "upt"],
     version: "3.0",
-    author: "nexo_here",
+    author: "deepam",
     cooldowns: 5,
     role: 0,
     shortDescription: "Bot's system status",
@@ -42,7 +42,7 @@ module.exports = {
     ctx.fillStyle = titleGradient;
     ctx.shadowColor = "#00ffaa88";
     ctx.shadowBlur = 20;
-    ctx.fillText("Ichigo AI – System Monitor", cardX + 50, cardY + 50);
+    ctx.fillText("NoBi BoT – System Monitor", cardX + 50, cardY + 50);
     ctx.shadowBlur = 0;
 
     // Sub divider
@@ -112,7 +112,7 @@ module.exports = {
 
     // Save Image
     const buffer = canvas.toBuffer("image/png");
-    const fileName = "uptime_report_ichigo_pro.png";
+    const fileName = "uptime_report_nobi_bot.png";
     fs.writeFileSync(fileName, buffer);
 
     // Plain text version
@@ -121,7 +121,7 @@ module.exports = {
     const bar2 = `CPU Load: ${loadAvg.toFixed(2)} (${cpuPercent.toFixed(1)}%)`;
 
     message.reply({
-      body: `🔧 AI – Uptime Report\n\n${plain}\n\n${bar1}\n${bar2}`,
+      body: `🔧 NoBi BoT – Uptime Report\n\n${plain}\n\n${bar1}\n${bar2}`,
       attachment: fs.createReadStream(fileName)
     });
   }
