@@ -78,4 +78,4 @@ module.exports = {
       api.sendMessage(error.message, event.threadID, event.messageID);
     }
   },
-};const
+};
