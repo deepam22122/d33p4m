@@ -86,4 +86,4 @@ module.exports.onStart = async function ({ api, args, event }) {
       event.messageID,
     );
   }
-};const
+};
