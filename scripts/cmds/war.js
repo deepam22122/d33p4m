@@ -21,7 +21,7 @@ const m = [
 "teri aamalai bhagai bhagai chikam",
 "machikne tero didi lai lyam ki lyam chikxu",
 "aaija mero lado chus muji jharey",
-"ta jasto ladomukh ta jindagi ma dekhya thyena",
+"ta jasto ladomukhe ta jindagi ma dekhya thyena",
 "gayera afno lado jasto thopda dhu machikne",
 "besya aamako bhalu chora/chori",
 "aaija mero lado chus khusi hunchas",
@@ -31,7 +31,13 @@ const m = [
 "condom futeko natija hos ta machikne",
 "tero aamako puti futne gari chikdera galti vo",
 "aba teri aamako condo hanna aauxu",
-  "namuna machikne manxe herera chamkini gar marlas"
+  "namuna machikne manxe herera chamkini gar marlas",
+"teri aamako dudh chusna kya majja aako 😘",
+"ta machikne euta hasoko patro hos sala namuna",
+"ta bhanda ramrota mero jhat chha hau",
+"tero aamako sukeko puti ma suti suti chikxu"
+"aaija mero najayas aulad bauko lado ma jhundi 🤤",
+"tero amaa lai vande hai baule yaad gardaixa chiknu lai 😘"
 ];
 let t = [];
 let lastMessageIndex = -1; 
