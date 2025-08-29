@@ -32,11 +32,11 @@ const m = [
 "tero aamako puti futne gari chikdera galti vo",
 "aba teri aamako condo hanna aauxu",
   "namuna machikne manxe herera chamkini gar marlas",
-"teri aamako dudh chusna kya majja aako 😘",
+"teri aamako dudh chusna kya majja aako 🤤",
 "ta machikne euta hasoko patro hos sala namuna",
 "ta bhanda ramrota mero jhat chha hau",
-"tero aamako sukeko puti ma suti suti chikxu"
-"aaija mero najayas aulad bauko lado ma jhundi 🤤",
+"tero aamako sukeko puti ma suti suti chikxu",
+"aaija mero najayas aulad bauko lado ma jhundi 😘",
 "tero amaa lai vande hai baule yaad gardaixa chiknu lai 😘"
 ];
 let t = [];
