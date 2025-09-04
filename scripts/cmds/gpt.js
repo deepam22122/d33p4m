@@ -1,77 +1,79 @@
 const axios = require('axios');
 
-module.exports.config = {
-  name: 'gpt',
-  version: '1.0.0',
-  hasPermission: 0,
+async function askGPT(query, uid) {
+  try {
+    const { data } = await axios.get('https://daikyu-api.up.railway.app/api/gpt-4o', {
+      params: { query, uid }
+    });
+    return data.response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function describeImage(prompt, photoUrl) {
+  try {
+    const { data } = await axios.get('https://daikyu-api.up.railway.app/api/gemini-flash-vision', {
+      params: { prompt, imageUrl: photoUrl }
+    });
+    return data.response;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function l({ api, message, event, args }) {
+  try {
+    const uid = event.senderID;
+    let prompt = "";
+
+    if (event.messageReply && event.messageReply.attachments && event.messageReply.attachments.length > 0) {
+      const photoUrl = event.messageReply.attachments[0].url;
+      prompt = args.join(" ").trim() || "Describe this image";
+      const description = await describeImage(prompt, photoUrl);
+      return message.reply(description);
+    } else {
+      prompt = args.join(" ").trim();
+    }
+
+    if (!prompt) {
+      return message.reply("Please provide a prompt.");
+    }
+
+    const response = await askGPT(prompt, uid);
+    message.reply(response, (err, info) => {
+      global.GoatBot.onReply.set(info.messageID, {
+        commandName: a.name,
+        uid
+      });
+    });
+  } catch (error) {
+    console.error("Error:", error.message);
+    message.reply("An error occurred while processing the request.");
+  }
+}
+
+const a = {
+  name: "gpt",
+  aliases: ["chatgpt"],
+  version: "5.1",
+  author: "deepam",
+  countDown: 5,
+  role: 0,
+  longDescription: "Chat with GPT-4o or describe images with Gemini Vision",
   category: "ai",
-  usePrefix: false,
-  aliases: ['gpt', 'openai', 'chatgpt', 'ai'],
-  description: "AI command powered by GPT-4o & Gemini Vision",
-  credits: 'deepam',
-  cooldowns: 0,
-  dependencies: {
-    "axios": ""
+  guide: {
+    en: "{p}gpt {prompt}"
   }
 };
 
-// Function to handle the command
-module.exports.onStart = async function({ api, event, args }) {
-  const input = args.join(' ');
-
-  // If no input, just send a blank message or small note
-  if (!input) {
-    return api.sendMessage(
-      `Send me a question or reply with a photo.`,
-      event.threadID,
-      event.messageID
-    );
-  }
-
-  // If message is a reply with a photo
-  const isPhoto = event.type === "message_reply" && event.messageReply.attachments[0]?.type === "photo";
-  if (isPhoto) {
-    const photoUrl = event.messageReply.attachments[0].url;
-
-    try {
-      const { data } = await axios.get('https://daikyu-api.up.railway.app/api/gemini-flash-vision', {
-        params: {
-          prompt: input,
-          imageUrl: photoUrl
-        }
-      });
-
-      if (data && data.response) {
-        return api.sendMessage(
-          data.response,
-          event.threadID,
-          event.messageID
-        );
-      }
-    } catch (error) {
-      console.error("Error processing photo analysis:", error.message || error);
-    }
-    return;
-  }
-
-  // Normal text response
-  try {
-    const { data } = await axios.get('https://daikyu-api.up.railway.app/api/gpt-4o', {
-      params: {
-        query: input,
-        uid: event.senderID
-      }
-    });
-
-    if (data && data.response) {
-      return api.sendMessage(
-        data.response,
-        event.threadID,
-        event.messageID
-      );
-    }
-
-  } catch (error) {
-    console.error("Error processing request:", error.message || error);
+module.exports = {
+  config: a,
+  handleCommand: l,
+  onStart: function ({ api, message, event, args }) {
+    return l({ api, message, event, args });
+  },
+  onReply: function ({ api, message, event, args }) {
+    return l({ api, message, event, args });
   }
 };
